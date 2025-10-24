@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+vec_argmax_seq/.DS_Store
+vec_argmax_unroll/.DS_Store
+vec_mul_pipeline/.DS_Store
+vec_mul_seq/.DS_Store
+vec_mul_unroll/.DS_Store
+.DS_Store
