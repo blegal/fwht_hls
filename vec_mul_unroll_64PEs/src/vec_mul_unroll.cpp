@@ -8,8 +8,9 @@ void vec_mul(float dst[gf_size], const float src_1[gf_size], const float src_2[g
 {
     for (int i = 0; i < gf_size; i++)
     {
-#pragma HLS pipeline II=1
+#pragma HLS unroll factor=64
         dst[i] = src_1[i] * src_2[i];
     }
     return max_index;
 }
+
