@@ -6,15 +6,18 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //
-inline float vec_fwht8(float dst[8], const float src[8])
+void vec_fwht8_pipeline(float dst[8], const float src[8])
 {
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=src
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst
 #pragma HLS pipeline II=1
+
     const float fact = 0.35355339059f;
 
-    const float L10 = src[0] + src[4]);
-    const float L11 = src[1] + src[5]);
-    const float L12 = src[2] + src[6]);
-    const float L13 = src[3] + src[7]);
+    const float L10 = src[0] + src[4];
+    const float L11 = src[1] + src[5];
+    const float L12 = src[2] + src[6];
+    const float L13 = src[3] + src[7];
     const float L14 = src[0] - src[4];
     const float L15 = src[1] - src[5];
     const float L16 = src[2] - src[6];
