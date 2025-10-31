@@ -20,22 +20,24 @@ template <int gf_size> void middle_node_pruned_rep_after_f(
 ) {
 #pragma HLS INLINE
         for(int i = 0; i < size; i++) {
-            FWHT_NORM/*<gf_size>*/(inputs[i].value);
-            inputs[i].is_freq = false;
+#pragma HLS PIPELINE off
+    		const symbols_t ia = inputs[i];
+    		symbols_t oa;
+    		fwht_norm_64_io(ia.value, oa.value);
+            inputs[i] = normalize( oa );
         }
 
-        float temp[gf_size];
-        for (int j = 0; j < gf_size; j++)
-            temp[j] = inputs[0].value[j] * inputs[1].value[j];
+		const symbols_t ia = inputs[0];
+        const symbols_t	ib = inputs[1];
 
+        symbols_t temp = multiply_symbol(ia, ib);
         for(int i = 2; i < size; i++){
-            if( (i & 0x1) == 1)
-            normalize/*<gf_size>*/( temp );
-            for (int j = 0; j < gf_size; j++)
-                temp[j] *= inputs[i].value[j] ;
+#pragma HLS PIPELINE off
+    		const symbols_t tt = inputs[i];
+    		temp = multiply_symbol(temp, tt);
         }
 
-        const int value = argmax/*<gf_size>*/( temp );
+        const int value = argmax( temp.value );
 
         for(int i = 0; i < size; i++)
         {

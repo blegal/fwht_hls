@@ -18,6 +18,7 @@ template <int gf_size> void middle_node_pruned_rate_1_after_f(
 ) {
 #pragma HLS INLINE
     for (int i = 0; i < size; i++) {
+#pragma HLS PIPELINE off
         FWHT_NORM/*<gf_size>*/(inputs[i].value);
         const int value  = argmax/*<gf_size>*/(inputs[i].value);
         symbols[i] = value;

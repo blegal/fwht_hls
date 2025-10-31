@@ -238,7 +238,7 @@ symbols_t fwht_norm_64_io_ret(const symbols_t src)
     #pragma HLS inline off
     symbols_t dst;
     for (size_t i = 0; i < 64; i++) {
-    	dst.value[i] += i;
+    	dst.value[i] = src.value[i] + i;
     }
     return dst;
 }

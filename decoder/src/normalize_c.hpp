@@ -10,18 +10,20 @@
 //
 //
 
-void normalize(float * tab)
+symbols_t normalize(const symbols_t tab)
 {
 	const int gf_size = 64;
 #pragma HLS INLINE off
     float sum = 1e-32f;
     for (int i = 0; i < gf_size; i += 1) {
-        sum += tab[i];
+        sum += tab.value[i];
     }
+    symbols_t result;
     const float factor = 1.f / sum;
     for (int i = 0; i < gf_size; i++) {
-        tab[i] *= factor;
+        result.value[i] = tab.value[i] * factor;
     }
+    return result;
 }
 
 //
