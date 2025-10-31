@@ -26,8 +26,9 @@ add_files src/normalize_c.hpp
 open_solution "solution1" -flow_target vivado
 set_part {xc7vx690tffg1761-2}
 create_clock -period 10 -name default
+config_export -format ip_catalog -rtl verilog -vivado_clock 10
 #source "./decoder_gf64/solution1/directives.tcl"
 #csim_design
 csynth_design
 #cosim_design
-export_design -format ip_catalog
+export_design -flow impl -rtl verilog -format ip_catalog
