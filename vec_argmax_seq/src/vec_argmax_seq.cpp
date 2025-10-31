@@ -19,3 +19,4 @@ int argmax(const float value[gf_size])
     }
     return max_index;
 }
+
