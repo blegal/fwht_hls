@@ -27,12 +27,19 @@ tuple f_max(const tuple a, const tuple b)
 
 uint8_t vec_argmax_unroll(const float value[gf_size])
 {
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=value
     tuple s1[gf_size/ 2];
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s1
     tuple s2[gf_size/ 4];
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s2
     tuple s3[gf_size/ 8];
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s3
     tuple s4[gf_size/16];
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s4
     tuple s5[gf_size/32];
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s5
     tuple s6;
+
 
     //
     // stage 0

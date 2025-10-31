@@ -79,7 +79,7 @@ inline void fwht_norm_tuile(float* inp,  const float fact) {
     inp[7] = (L2[6] - L2[7]) * fact;
 }
 
-inline void fwht_norm_tuile(const float* inp,  float* op,  const float fact) {
+inline void fwht_norm_tuile(const float inp[8],  float op[8],  const float fact) {
 #pragma HLS INLINE
     float L1[8], L2[8];
     L1[0] = (inp[0] + inp[4]);
@@ -193,7 +193,7 @@ inline void fwht_norm_internal<64>(float* inp, const float fact)
 }
 
 template <int Tsize>
-void fwht_norm_tpl_io(const float * inp, float * op, float fact /* why ? */) {
+void fwht_norm_tpl_io(const float inp[Tsize], float op[Tsize], float fact /* why ? */) {
 #pragma HLS INLINE
     constexpr int size = Tsize;
     constexpr int half_size = size / 2;
@@ -210,12 +210,12 @@ void fwht_norm_tpl_io(const float * inp, float * op, float fact /* why ? */) {
 }
 
 template <>
-void fwht_norm_tpl_io<8>(const float * inp, float * op, float fact /* why ? */) {
+void fwht_norm_tpl_io<8>(const float inp[8], float op[8], float fact /* why ? */) {
     #pragma HLS INLINE
     fwht_norm_tuile(inp, op, fact);
 }
 
-void fwht_norm_64_io(const float * inp, float * op) {
+void fwht_norm_64_io(const float inp[64], float op[64]) {
     fwht_norm_tpl_io<64>(inp, op, 0.17677669529f);
 }
 
