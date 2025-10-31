@@ -33,9 +33,14 @@ struct symbols_s
 
 symbols_t multiply_symbol(const symbols_t ta, const symbols_t tb)
 {
-#pragma HLS INLINE off
+	#pragma HLS INLINE off
 	symbols_t op;
-loop_mulsymb:
+
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=ta.value
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=tb.value
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=op.value
+
+	loop_mulsymb:
 	for (size_t i = 0; i < 64; i++)
 	{
 #pragma HLS UNROLL

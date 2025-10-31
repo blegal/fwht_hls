@@ -15,9 +15,10 @@
 //
 //
 
-int argmax(const float * value)
+int argmax(const float value[64])
 {
 #pragma HLS INLINE off
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=value
 	const int gf_size = 64;
     int    max_index = 0;
     float  max_value = value[0];

@@ -12,6 +12,7 @@
 
 symbols_t normalize(const symbols_t tab)
 {
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=tab.value
 	const int gf_size = 64;
 #pragma HLS INLINE off
     float sum = 1e-32f;
