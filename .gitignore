@@ -47,4 +47,4 @@ vitis_hls.log
 solution1.aps
 solution1.directive
 *.log
-argmax_funtions/vitis_argmax/artix7/kria_data.json
+*data.json
