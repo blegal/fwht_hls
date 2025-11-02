@@ -9,8 +9,8 @@
 
 
 typedef struct tuple{
-    float value;
-    int   index; // range [0...63]
+    float   value;
+    unsigned char index; // range [0...63]
 } tuple;
 
 
@@ -33,10 +33,10 @@ tuple f_max(const tuple a, const tuple b)
 //
 int argmax_float32_t(const float value[gf_size])
 {
-    int    max_index = 0;
-    float  max_value = value[0];
+	uint8_t max_index = 0;
+    float   max_value = value[0];
 
-    for (int i = 1; i < gf_size; i++)
+    for (uint8_t i = 1; i < gf_size; i++)
     {
 #pragma HLS PIPELINE II=1
         if (value[i] > max_value)
@@ -61,14 +61,17 @@ int argmax_float32x2_t(const float value[gf_size])
 	tuple local[2] = { {0.f, 0},{0.f, 0} };
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=local
 
-    for (int i = 0; i < gf_size; i += 2)
+    for (uint8_t i = 0; i < gf_size; i += 2)
     {
 #pragma HLS PIPELINE
-        for (int k = 0; k < 2; k += 1)
+        for (uint8_t k = 0; k < 2; k += 1)
         {
 #pragma HLS UNROLL
-        	const tuple A = {value[i+k], i+k};
-            local[k] = f_max(local[k], A);
+        	tuple A;
+        	uint8_t idx = i + k;
+        	A.value     = value[idx];
+        	A.index     = idx;
+            local[k]    = f_max(local[k], A);
         }
     }
 
@@ -90,14 +93,17 @@ int argmax_float32x4_t(const float value[gf_size])
 	tuple local[4] = { {0.f, 0},{0.f, 0}, {0.f, 0}, {0.f, 0}};
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=local
 
-    for (int i = 0; i < gf_size; i += 4)
+    for (uint8_t i = 0; i < gf_size; i += 4)
     {
 #pragma HLS PIPELINE
-        for (int k = 0; k < 4; k += 1)
+        for (uint8_t k = 0; k < 4; k += 1)
         {
 #pragma HLS UNROLL
-        	const tuple A = {value[i+k], i+k};
-            local[k] = f_max(local[k], A);
+        	tuple A;
+        	uint8_t idx = i + k;
+        	A.value     = value[idx];
+        	A.index     = idx;
+            local[k]    = f_max(local[k], A);
         }
     }
 
@@ -121,14 +127,17 @@ int argmax_float32x8_t(const float value[gf_size])
 	tuple local[8] = { {0.f, 0},{0.f, 0}, {0.f, 0}, {0.f, 0}, {0.f, 0},{0.f, 0}, {0.f, 0}, {0.f, 0}};
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=local
 
-    for (int i = 0; i < gf_size; i += 8)
+    for (uint8_t i = 0; i < gf_size; i += 8)
     {
 #pragma HLS PIPELINE
-        for (int k = 0; k < 8; k += 1)
+        for (uint8_t k = 0; k < 8; k += 1)
         {
 #pragma HLS UNROLL
-        	const tuple A = {value[i+k], i+k};
-            local[k] = f_max(local[k], A);
+        	tuple A;
+        	uint8_t idx = i + k;
+        	A.value     = value[idx];
+        	A.index     = idx;
+            local[k]    = f_max(local[k], A);
         }
     }
 
@@ -151,7 +160,48 @@ int argmax_float32x8_t(const float value[gf_size])
 //
 //
 //
+int argmax_float32x16_t(const float value[gf_size])
+{
+#pragma HLS ARRAY_PARTITION dim=1 factor=16 type=cyclic variable=value
 
+	tuple local[16] = { {0.f, 0},{0.f, 0}, {0.f, 0}, {0.f, 0}, {0.f, 0},{0.f, 0}, {0.f, 0}, {0.f, 0}, {0.f, 0},{0.f, 0}, {0.f, 0}, {0.f, 0}, {0.f, 0},{0.f, 0}, {0.f, 0}, {0.f, 0} };
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=local
+
+    for (uint8_t i = 0; i < gf_size; i += 16)
+    {
+#pragma HLS PIPELINE
+        for (uint8_t k = 0; k < 16; k += 1)
+        {
+#pragma HLS UNROLL
+        	tuple A;
+        	uint8_t idx = i + k;
+        	A.value     = value[idx];
+        	A.index     = idx;
+            local[k]    = f_max(local[k], A);
+        }
+    }
+
+    const tuple R0 = f_max(local[ 0], local[ 1]);
+	const tuple R1 = f_max(local[ 2], local[ 3]);
+    const tuple R2 = f_max(local[ 4], local[ 5]);
+	const tuple R3 = f_max(local[ 6], local[ 7]);
+    const tuple R4 = f_max(local[ 8], local[ 9]);
+	const tuple R5 = f_max(local[10], local[11]);
+    const tuple R6 = f_max(local[12], local[13]);
+	const tuple R7 = f_max(local[14], local[15]);
+
+    const tuple r1 = f_max(R0, R1);
+	const tuple r2 = f_max(R2, R3);
+    const tuple r3 = f_max(R4, R5);
+	const tuple r4 = f_max(R6, R7);
+
+    const tuple r5 = f_max(r1, r2);
+	const tuple r6 = f_max(r3, r4);
+
+	const tuple r7 = f_max(r5, r6);
+
+    return r7.index;
+}
 //
 //
 //
@@ -178,32 +228,41 @@ uint8_t argmax_float32x64_t(const float value[gf_size])
     //
     // stage 0
     //
-    for (int i = 0; i < gf_size; i += 2) // 64
+    for (uint8_t i = 0; i < gf_size; i += 2) // 64
     {
 #pragma HLS UNROLL
-        const tuple A = {value[  i], i  };
-        const tuple B = {value[i+1], i+1};
+//      const tuple A = {value[  i], i  };
+    	tuple A;
+    	A.value     = value[i];
+    	A.index     = i;
+
+//      const tuple B = {value[i+1], i+1};
+    	tuple B;
+    	uint8_t idx = i + 1;
+    	B.value     = value[idx];
+    	B.index     = idx;
+
         s1[i >> 1] = f_max(A, B);
     }
     //
     // stage 1
     //
-    for (int i = 0; i < gf_size/2; i += 2)  // 32
+    for (uint8_t i = 0; i < gf_size/2; i += 2)  // 32
     {
 #pragma HLS UNROLL
         s2[i >> 1] = f_max(s1[i], s1[i+1]);
     }
-    for (int i = 0; i < gf_size/4; i += 2)  // 16
+    for (uint8_t i = 0; i < gf_size/4; i += 2)  // 16
     {
 #pragma HLS UNROLL
         s3[i >> 1] = f_max(s2[i], s2[i+1]);
     }
-    for (int i = 0; i < gf_size/8; i += 2)  // 8
+    for (uint8_t i = 0; i < gf_size/8; i += 2)  // 8
     {
 #pragma HLS UNROLL
         s4[i >> 1] = f_max(s3[i], s3[i+1]);
     }
-    for (int i = 0; i < gf_size/16; i += 2) // 4
+    for (uint8_t i = 0; i < gf_size/16; i += 2) // 4
     {
 #pragma HLS UNROLL
         s5[i >> 1] = f_max(s4[i], s4[i+1]);
@@ -212,3 +271,10 @@ uint8_t argmax_float32x64_t(const float value[gf_size])
 
     return s6.index;
 }
+//
+//
+//
+//////////////////////////////////////////////////////////////////////
+//
+//
+//

@@ -37,6 +37,11 @@
 			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/.apc/.tb</location>
 		</link>
 		<link>
+			<name>.reference/stdint-uintn.h</name>
+			<type>1</type>
+			<location>/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h</location>
+		</link>
+		<link>
 			<name>artix7/constraints</name>
 			<type>2</type>
 			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/artix7/.tcls</location>

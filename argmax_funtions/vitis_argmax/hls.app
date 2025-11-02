@@ -1,4 +1,4 @@
-<project xmlns="com.autoesl.autopilot.project" name="vitis_argmax" top="argmax_float32x8_t" projectType="C/C++">
+<project xmlns="com.autoesl.autopilot.project" name="vitis_argmax" top="argmax_float32x16_t" projectType="C/C++">
     <includePaths/>
     <libraryPaths/>
     <Simulation>
