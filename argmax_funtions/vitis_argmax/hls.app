@@ -8,7 +8,7 @@
         <file name="src/argmax.cpp" sc="0" tb="false" cflags="" csimflags="" blackbox="false"/>
     </files>
     <solutions xmlns="">
-        <solution name="kria" status="active"/>
+        <solution name="artix7" status="active"/>
     </solutions>
 </project>
 

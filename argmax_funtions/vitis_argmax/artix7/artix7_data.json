@@ -1,0 +1,735 @@
+{
+  "Top": "argmax_float32x8_t",
+  "RtlTop": "argmax_float32x8_t",
+  "RtlPrefix": "",
+  "RtlSubPrefix": "argmax_float32x8_t_",
+  "SourceLanguage": "cpp",
+  "HostMachineBits": "64",
+  "FunctionProtocol": "ap_ctrl_hs",
+  "ResetStyle": "control",
+  "Target": {
+    "Family": "artix7",
+    "Device": "xc7a200t",
+    "Package": "-fbg676",
+    "Speed": "-2",
+    "Triple": "fpga64-xilinx-none"
+  },
+  "Args": {"value": {
+      "index": "0",
+      "direction": "in",
+      "srcType": "float const *",
+      "srcSize": "32",
+      "hwRefs": [
+        {
+          "type": "port",
+          "interface": "value_0_address0",
+          "name": "value_0_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_0_ce0",
+          "name": "value_0_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_0_q0",
+          "name": "value_0_q0",
+          "usage": "data",
+          "direction": "in"
+        },
+        {
+          "type": "port",
+          "interface": "value_1_address0",
+          "name": "value_1_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_1_ce0",
+          "name": "value_1_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_1_q0",
+          "name": "value_1_q0",
+          "usage": "data",
+          "direction": "in"
+        },
+        {
+          "type": "port",
+          "interface": "value_2_address0",
+          "name": "value_2_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_2_ce0",
+          "name": "value_2_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_2_q0",
+          "name": "value_2_q0",
+          "usage": "data",
+          "direction": "in"
+        },
+        {
+          "type": "port",
+          "interface": "value_3_address0",
+          "name": "value_3_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_3_ce0",
+          "name": "value_3_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_3_q0",
+          "name": "value_3_q0",
+          "usage": "data",
+          "direction": "in"
+        },
+        {
+          "type": "port",
+          "interface": "value_4_address0",
+          "name": "value_4_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_4_ce0",
+          "name": "value_4_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_4_q0",
+          "name": "value_4_q0",
+          "usage": "data",
+          "direction": "in"
+        },
+        {
+          "type": "port",
+          "interface": "value_5_address0",
+          "name": "value_5_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_5_ce0",
+          "name": "value_5_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_5_q0",
+          "name": "value_5_q0",
+          "usage": "data",
+          "direction": "in"
+        },
+        {
+          "type": "port",
+          "interface": "value_6_address0",
+          "name": "value_6_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_6_ce0",
+          "name": "value_6_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_6_q0",
+          "name": "value_6_q0",
+          "usage": "data",
+          "direction": "in"
+        },
+        {
+          "type": "port",
+          "interface": "value_7_address0",
+          "name": "value_7_address0",
+          "usage": "address",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_7_ce0",
+          "name": "value_7_ce0",
+          "usage": "control",
+          "direction": "out"
+        },
+        {
+          "type": "port",
+          "interface": "value_7_q0",
+          "name": "value_7_q0",
+          "usage": "data",
+          "direction": "in"
+        }
+      ]
+    }},
+  "ReturnValue": {
+    "srcType": "int",
+    "srcSize": "32",
+    "hwRefs": [{
+        "type": "port",
+        "interface": "ap_return",
+        "name": "ap_return",
+        "usage": "data",
+        "direction": "out"
+      }]
+  },
+  "HlsSolution": {
+    "FlowTarget": "vivado",
+    "ConfigTcl": [
+      "config_export -flow=impl",
+      "config_export -format=ip_catalog",
+      "config_export -rtl=verilog",
+      "config_export -vivado_clock=10"
+    ],
+    "DirectiveTcl": [
+      "set_directive_top argmax_float32x8_t -name argmax_float32x8_t",
+      "set_directive_top argmax_float32x8_t -name argmax_float32x8_t"
+    ],
+    "ProfileOption": "0",
+    "ProfileType": "none",
+    "KernelName": "argmax_float32x8_t"
+  },
+  "ClockInfo": {
+    "ClockName": "ap_clk",
+    "ClockPeriod": "10",
+    "Uncertainty": "2.7",
+    "IsCombinational": "0",
+    "II": "17",
+    "Latency": "16"
+  },
+  "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
+  "Ipx": {
+    "Vendor": "xilinx.com",
+    "Library": "hls",
+    "Name": "argmax_float32x8_t",
+    "Version": "1.0",
+    "DisplayName": "Argmax_float32x8_t",
+    "Revision": "2114330614",
+    "Description": "An IP generated by Vitis HLS",
+    "Taxonomy": "\/VITIS_HLS_IP",
+    "AutoFamilySupport": "",
+    "ZipFile": "xilinx_com_hls_argmax_float32x8_t_1_0.zip"
+  },
+  "Files": {
+    "CSource": ["..\/..\/src\/argmax.cpp"],
+    "Vhdl": [
+      "impl\/vhdl\/argmax_float32x8_t_fcmp_32ns_32ns_1_2_no_dsp_1.vhd",
+      "impl\/vhdl\/argmax_float32x8_t.vhd"
+    ],
+    "Verilog": [
+      "impl\/verilog\/argmax_float32x8_t_fcmp_32ns_32ns_1_2_no_dsp_1.v",
+      "impl\/verilog\/argmax_float32x8_t.v"
+    ],
+    "IpMisc": ["impl\/misc\/logo.png"],
+    "Subcore": ["impl\/misc\/argmax_float32x8_t_fcmp_32ns_32ns_1_2_no_dsp_1_ip.tcl"],
+    "CsynthXml": "syn\/report\/csynth.xml",
+    "DebugDir": ".debug",
+    "KernelXml": ".autopilot\/db\/kernel.internal.xml",
+    "Xo": "",
+    "XoHlsDir": "",
+    "ProtoInst": [".debug\/argmax_float32x8_t.protoinst"]
+  },
+  "SubcoreInfo": {
+    "HasXpmMemory": false,
+    "HasClockedDsp": false,
+    "Ip": [{
+        "Name": "argmax_float32x8_t_fcmp_32ns_32ns_1_2_no_dsp_1_ip",
+        "Vlnv": "xilinx.com:ip:floating_point:7.1",
+        "Params": "CONFIG.a_precision_type Single CONFIG.a_tuser_width 1 CONFIG.add_sub_value Both CONFIG.b_tuser_width 1 CONFIG.c_a_exponent_width 8 CONFIG.c_a_fraction_width 24 CONFIG.c_compare_operation Programmable CONFIG.c_has_divide_by_zero false CONFIG.c_has_invalid_op false CONFIG.c_has_overflow false CONFIG.c_has_underflow false CONFIG.c_latency 0 CONFIG.c_mult_usage No_Usage CONFIG.c_optimization Speed_Optimized CONFIG.c_rate 1 CONFIG.c_result_exponent_width 1 CONFIG.c_result_fraction_width 0 CONFIG.component_name argmax_float32x8_t_fcmp_32ns_32ns_1_2_no_dsp_1_ip CONFIG.flow_control NonBlocking CONFIG.has_a_tlast false CONFIG.has_a_tuser false CONFIG.has_aclken false CONFIG.has_aresetn false CONFIG.has_b_tlast false CONFIG.has_b_tuser false CONFIG.has_operation_tlast false CONFIG.has_operation_tuser false CONFIG.has_result_tready false CONFIG.maximum_latency false CONFIG.operation_tuser_width 1 CONFIG.operation_type Compare CONFIG.result_precision_type Single CONFIG.result_tlast_behv Null"
+      }]
+  },
+  "Interfaces": {
+    "ap_clk": {
+      "type": "clock",
+      "busTypeName": "clock",
+      "mode": "slave",
+      "busParams": {"ASSOCIATED_RESET": "ap_rst"},
+      "portMap": {"ap_clk": "CLK"},
+      "ports": ["ap_clk"]
+    },
+    "ap_rst": {
+      "type": "reset",
+      "busTypeName": "reset",
+      "mode": "slave",
+      "busParams": {"POLARITY": "ACTIVE_HIGH"},
+      "portMap": {"ap_rst": "RST"},
+      "ports": ["ap_rst"]
+    },
+    "ap_ctrl": {
+      "type": "ap_ctrl",
+      "busTypeName": "acc_handshake",
+      "mode": "slave",
+      "portMap": {
+        "ap_start": "start",
+        "ap_done": "done",
+        "ap_idle": "idle",
+        "ap_ready": "ready"
+      },
+      "ports": [
+        "ap_done",
+        "ap_idle",
+        "ap_ready",
+        "ap_start"
+      ]
+    },
+    "ap_return": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_ctrl_hs",
+      "mode": "master",
+      "dataWidth": "32",
+      "portMap": {"ap_return": "DATA"},
+      "ports": ["ap_return"]
+    },
+    "value_0_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_0_address0": "DATA"},
+      "ports": ["value_0_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_0_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_0_q0": "DATA"},
+      "ports": ["value_0_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_1_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_1_address0": "DATA"},
+      "ports": ["value_1_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_1_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_1_q0": "DATA"},
+      "ports": ["value_1_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_2_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_2_address0": "DATA"},
+      "ports": ["value_2_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_2_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_2_q0": "DATA"},
+      "ports": ["value_2_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_3_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_3_address0": "DATA"},
+      "ports": ["value_3_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_3_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_3_q0": "DATA"},
+      "ports": ["value_3_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_4_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_4_address0": "DATA"},
+      "ports": ["value_4_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_4_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_4_q0": "DATA"},
+      "ports": ["value_4_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_5_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_5_address0": "DATA"},
+      "ports": ["value_5_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_5_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_5_q0": "DATA"},
+      "ports": ["value_5_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_6_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_6_address0": "DATA"},
+      "ports": ["value_6_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_6_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_6_q0": "DATA"},
+      "ports": ["value_6_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_7_address0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "master",
+      "dataWidth": "3",
+      "portMap": {"value_7_address0": "DATA"},
+      "ports": ["value_7_address0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    },
+    "value_7_q0": {
+      "type": "data",
+      "busTypeName": "data",
+      "protocol": "ap_memory",
+      "mode": "slave",
+      "dataWidth": "32",
+      "portMap": {"value_7_q0": "DATA"},
+      "ports": ["value_7_q0"],
+      "constraints": [{
+          "constraint_type": "pragma interface",
+          "mode": "ap_memory",
+          "register_option": "0",
+          "argName": "value"
+        }]
+    }
+  },
+  "RtlPorts": {
+    "ap_clk": {
+      "dir": "in",
+      "width": "1"
+    },
+    "ap_rst": {
+      "dir": "in",
+      "width": "1"
+    },
+    "ap_start": {
+      "dir": "in",
+      "width": "1"
+    },
+    "ap_done": {
+      "dir": "out",
+      "width": "1"
+    },
+    "ap_idle": {
+      "dir": "out",
+      "width": "1"
+    },
+    "ap_ready": {
+      "dir": "out",
+      "width": "1"
+    },
+    "ap_return": {
+      "dir": "out",
+      "width": "32"
+    },
+    "value_0_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_0_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_0_q0": {
+      "dir": "in",
+      "width": "32"
+    },
+    "value_1_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_1_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_1_q0": {
+      "dir": "in",
+      "width": "32"
+    },
+    "value_2_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_2_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_2_q0": {
+      "dir": "in",
+      "width": "32"
+    },
+    "value_3_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_3_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_3_q0": {
+      "dir": "in",
+      "width": "32"
+    },
+    "value_4_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_4_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_4_q0": {
+      "dir": "in",
+      "width": "32"
+    },
+    "value_5_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_5_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_5_q0": {
+      "dir": "in",
+      "width": "32"
+    },
+    "value_6_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_6_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_6_q0": {
+      "dir": "in",
+      "width": "32"
+    },
+    "value_7_address0": {
+      "dir": "out",
+      "width": "3"
+    },
+    "value_7_ce0": {
+      "dir": "out",
+      "width": "1"
+    },
+    "value_7_q0": {
+      "dir": "in",
+      "width": "32"
+    }
+  },
+  "ModuleInfo": {
+    "Hierarchy": {"ModuleName": "argmax_float32x8_t"},
+    "Info": {"argmax_float32x8_t": {
+        "FunctionProtocol": "ap_ctrl_hs",
+        "isTaskLevelControl": "0",
+        "isPipelined": "0",
+        "isCombinational": "0",
+        "isOneStateSeq": "0"
+      }},
+    "Metrics": {"argmax_float32x8_t": {
+        "Latency": {
+          "LatencyBest": "16",
+          "LatencyAvg": "16",
+          "LatencyWorst": "16",
+          "PipelineII": "17",
+          "PipelineDepth": "",
+          "PipelineType": "no"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "2.70",
+          "Estimate": "7.202"
+        },
+        "Loops": [{
+            "Name": "VITIS_LOOP_124_1",
+            "TripCount": "8",
+            "Latency": "9",
+            "PipelineII": "1",
+            "PipelineDepth": "3"
+          }],
+        "Area": {
+          "FF": "2140",
+          "AVAIL_FF": "269200",
+          "UTIL_FF": "~0",
+          "LUT": "2938",
+          "AVAIL_LUT": "134600",
+          "UTIL_LUT": "2",
+          "BRAM_18K": "0",
+          "AVAIL_BRAM": "730",
+          "UTIL_BRAM": "0",
+          "DSP": "0",
+          "AVAIL_DSP": "740",
+          "UTIL_DSP": "0",
+          "URAM": "0",
+          "AVAIL_URAM": "0",
+          "UTIL_URAM": "0"
+        }
+      }}
+  },
+  "GenerateBdFiles": "0",
+  "GenData": {
+    "DataVersion": "0.2",
+    "Time": "2025-11-02 13:34:09 CET",
+    "ToolName": "vitis_hls",
+    "ToolVersion": "2023.2"
+  }
+}

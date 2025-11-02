@@ -37,9 +37,9 @@
 			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/.apc/.tb</location>
 		</link>
 		<link>
-			<name>kria/constraints</name>
+			<name>artix7/constraints</name>
 			<type>2</type>
-			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/kria/.tcls</location>
+			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/artix7/.tcls</location>
 		</link>
 		<link>
 			<name>source/argmax.cpp</name>
@@ -47,19 +47,19 @@
 			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/src/argmax.cpp</location>
 		</link>
 		<link>
-			<name>kria/constraints/.xml.directive</name>
+			<name>artix7/constraints/.xml.directive</name>
 			<type>1</type>
-			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/kria/kria.directive</location>
+			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/artix7/artix7.directive</location>
 		</link>
 		<link>
-			<name>kria/constraints/directives.tcl</name>
+			<name>artix7/constraints/directives.tcl</name>
 			<type>1</type>
-			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/kria/directives.tcl</location>
+			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/artix7/directives.tcl</location>
 		</link>
 		<link>
-			<name>kria/constraints/script.tcl</name>
+			<name>artix7/constraints/script.tcl</name>
 			<type>1</type>
-			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/kria/script.tcl</location>
+			<location>/home/legal/GitHub/fwht_hls/argmax_funtions/vitis_argmax/artix7/script.tcl</location>
 		</link>
 	</linkedResources>
 </projectDescription>
