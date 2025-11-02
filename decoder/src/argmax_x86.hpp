@@ -18,6 +18,7 @@
 int argmax(const float value[64])
 {
 #pragma HLS INLINE off
+#pragma HLS PIPELINE
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=value
 	const int gf_size = 64;
     int    max_index = 0;

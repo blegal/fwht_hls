@@ -18,17 +18,6 @@ template <int gf_size>  void g_function_proba_in(
 		const int n_symbols)
 {
 #pragma HLS INLINE
-	//	for (int s = 0; s < n_symbols; s++)
-	//	{
-	//		for (int i = 0; i < gf_size; i += 1)
-	//		{
-	//			const int idx   = src_c[s] ^ i;
-	//			dst[s].value[idx] = src_a[s].value[i] * src_b[s].value[idx];
-	//		}
-	//		normalize/*gf_size>*/(dst[s].value); // temporal
-	//		dst[s].is_freq = false;
-	//	}
-
 	for (int s = 0; s < n_symbols; s++)
 	{
 #pragma HLS PIPELINE off
@@ -52,20 +41,9 @@ template <int gf_size, int n_symbols> inline __attribute__((always_inline))  voi
 		const uint16_t*  __restrict src_c  // the computed symbols coming from the left side of the graph
 ) {
 #pragma HLS INLINE
-	//	for (int s = 0; s < n_symbols; s++)
-	//	{
-	//		for (int i = 0; i < gf_size; i += 1)
-	//		{
-	//			const int idx   = src_c[s] ^ i;
-	//			dst[s].value[idx] = src_a[s].value[i] * src_b[s].value[idx];
-	//		}
-	//		normalize/*<gf_size>*/(dst[s].value); // temporal
-	//		dst[s].is_freq = false;
-	//	}
 	for (int s = 0; s < n_symbols; s++)
 	{
 #pragma HLS PIPELINE off
-
 		const symbols_t ia = src_a[s];
 		const symbols_t ib = src_b[s];
 		const symbols_t tmp_c = multiply_symbol(ia, ib);
@@ -84,20 +62,9 @@ template <int gf_size> inline __attribute__((always_inline))  void g_function_pr
 		const symbols_t* __restrict src_b, // the lower value set from the right side of the graph
 		const int n_symbols)
 {
-	//	for (int s = 0; s < n_symbols; s++)
-	//	{
-	//		for (int i = 0; i < gf_size; i += 1)
-	//		{
-	//			/* const int idx   = src_c[s] ^ i; */
-	//			dst[s].value[/*idx*/ i] = src_a[s].value[i] * src_b[s].value[/*idx*/ i];
-	//		}
-	//		normalize/*<gf_size>*/(dst[s].value); // temporal
-	//		dst[s].is_freq = false;
-	//	}
 	for (int s = 0; s < n_symbols; s++)
 	{
 #pragma HLS PIPELINE off
-
 		const symbols_t ia = src_a[s];
 		const symbols_t ib = src_b[s];
 		const symbols_t tmp_c = multiply_symbol(ia, ib);

@@ -33,17 +33,18 @@ struct symbols_s
 
 symbols_t multiply_symbol(const symbols_t ta, const symbols_t tb)
 {
-	#pragma HLS INLINE off
+#pragma HLS INLINE off
+#pragma HLS PIPELINE II=10
 	symbols_t op;
 
-#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=ta.value
-#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=tb.value
-#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=op.value
+#pragma HLS ARRAY_PARTITION dim=1 factor=8 type=cyclic variable=ta.value
+#pragma HLS ARRAY_PARTITION dim=1 factor=8 type=cyclic variable=tb.value
+#pragma HLS ARRAY_PARTITION dim=1 factor=8 type=cyclic variable=op.value
 
 	loop_mulsymb:
 	for (size_t i = 0; i < 64; i++)
 	{
-#pragma HLS UNROLL
+#pragma HLS UNROLL factor=8
 		op.value[i] = 10.f * ta.value[i] * tb.value[i];
 	}
 	return op;
@@ -66,8 +67,10 @@ symbols_t internal[_N_];
 uint16_t symbols[_N_];
 
 
-void the_decoder(symbols_t *channel, uint16_t* otab)
+void the_decoder(symbols_t channel[_N_], uint16_t otab[_N_])
 {
+#pragma HLS ARRAY_PARTITION dim=1 type=block factor=16 variable=channel->value
+
 	uint16_t decoded[_N_];
 #pragma HLS ALLOCATION function instances = argmax limit = 1
 #pragma HLS ALLOCATION function instances = normalize limit = 1
