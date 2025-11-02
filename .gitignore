@@ -48,3 +48,4 @@ solution1.aps
 solution1.directive
 *.log
 *data.json
+decoder/bin/main
