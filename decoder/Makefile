@@ -1,15 +1,28 @@
+CXX = g++
 
-all: main
+# To be adapted if needed
+DEPSFLAGS = -MMD
+WARNFLAGS = -Wall -Werror -Wno-unknown-pragmas -Wno-unused-label
+CSTDFLAGS = -std=c++14
+OPTSFLAGS = -O2
 
-main: obj/main.o obj/decoder.o
-	g++ -Wall -o ./bin/$@ $^ -lpthread
+CXXFLAGS = $(WARNFLAGS) $(DEPSFLAGS) $(CSTDFLAGS) $(OPTSFLAGS)
+LDFLAGS = $(OPTSFLAGS) $(CSTDFLAGS) $(WARNFLAGS)
 
-obj/main.o: src/main.cpp
-	g++ -Wall -O2 -std=c++14 -march=native -mtune=native src/main.cpp -c -o obj/main.o
+EXE = bin/main
 
-obj/decoder.o: src/decoder.cpp src/archi.hpp src/f_function_proba_in.hpp src/g_function_proba_in.hpp src/middle_node_pruned_rep_after_g.hpp src/argmax_x86.hpp src/fix_xor_list.hpp src/middle_node_pruned_rate_0.hpp src/normalize_c.hpp src/decoder.cpp src/fwht.hpp src/middle_node_pruned_rate_1_after_f.hpp src/dedicated_execute.hpp src/fwht_norm.hpp src/middle_node_pruned_rate_1_after_g.hpp src/f_function_freq_in.hpp src/g_function_freq_in.hpp  src/middle_node_pruned_rep_after_f.hpp
-	g++ -Wall -O2 -std=c++14 -march=native -mtune=native src/decoder.cpp -c -o obj/decoder.o
+all: $(EXE)
+
+bin/main: obj/main.o obj/decoder.o
+	[ -d bin ] || mkdir bin
+	$(CXX) -o $@ $^
+
+obj/%.o: src/%.cpp
+	[ -d obj ] || mkdir obj
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
 	rm -rf obj/*.o
 	rm -rf bin/main
+
+-include obj/*.d

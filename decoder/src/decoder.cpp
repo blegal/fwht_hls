@@ -79,11 +79,11 @@ void the_decoder(symbols_t channel[_N_], uint16_t otab[_N_])
 #pragma HLS ALLOCATION function instances = multiply_symbol limit = 1
 #pragma HLS ALLOCATION function instances = fwht_norm_64_io_ret limit = 1
 
-static float ta1[64][64], tb1[64][64], ta2[64][64], tb2[64][64];
-#pragma HLS ARRAY_PARTITION dim=1 type=block factor=2 variable=ta1
-#pragma HLS ARRAY_PARTITION dim=1 type=block factor=2 variable=tb1
-#pragma HLS ARRAY_PARTITION dim=1 type=block factor=4 variable=ta2
-#pragma HLS ARRAY_PARTITION dim=1 type=block factor=4 variable=tb2
+//static float ta1[64][64], tb1[64][64], ta2[64][64], tb2[64][64];
+//#pragma HLS ARRAY_PARTITION dim=1 type=block factor=2 variable=ta1
+//#pragma HLS ARRAY_PARTITION dim=1 type=block factor=2 variable=tb1
+//#pragma HLS ARRAY_PARTITION dim=1 type=block factor=4 variable=ta2
+//#pragma HLS ARRAY_PARTITION dim=1 type=block factor=4 variable=tb2
 	// NODE LEVEL (64)
 	f_function_proba_in<64>(internal, channel, channel + 32, 32);
 	f_function_freq_in <64>(internal + 32, internal + 0, internal + 16, 16);
@@ -172,3 +172,4 @@ static float ta1[64][64], tb1[64][64], ta2[64][64], tb2[64][64];
 	}
 //#endif
 }
+
