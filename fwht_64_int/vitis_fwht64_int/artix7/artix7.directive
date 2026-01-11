@@ -5,11 +5,6 @@
                 <option name="name" value="lwht64"/>
             </pragma>
         </directive>
-        <directive functionName="lwht64" label="" functionLabel="">
-            <pragma name="TOP">
-                <option name="name" value="lwht64"/>
-            </pragma>
-        </directive>
     </sourceFile>
 </AutoPilot:ProjectResources>
 

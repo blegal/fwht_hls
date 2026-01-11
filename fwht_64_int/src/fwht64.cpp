@@ -15,8 +15,10 @@ typedef struct dtypex8_t{
 	dtype v[8];
 } dtypex8_t;
 
-float flip_sign_bit(const dtype x, const ap_uint<1> bit)
+
+dtype flip_sign_bit(const dtype x, const ap_uint<1> bit)
 {
+#pragma HLS INLINE
     // Si bit == 1, on inverse le bit de signe (bit 31)
     // Si bit == 0, on ne change rien
 	const dtype y = -x;
@@ -28,7 +30,7 @@ float flip_sign_bit(const dtype x, const ap_uint<1> bit)
 
 dtypex8_t addsub_fx(const dtypex8_t A, const dtypex8_t B, const u_int8_t S, const int stage)
 {
-#pragma HLS INLINE off
+//#pragma HLS INLINE off
 #pragma HLS PIPELINE
 
 	dtypex8_t Ta, Tb;
@@ -95,6 +97,10 @@ dtypex8_t addsub_fx(const dtypex8_t A, const dtypex8_t B, const u_int8_t S, cons
 
 void lwht64(const dtypex8_t src[64], dtypex8_t dst[64])
 {
+#pragma HLS PIPELINE
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=src
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst
+
 #ifdef IN_LUTs
 	#pragma HLS ARRAY_PARTITION dim=8 factor=1 type=cyclic variable=src
 	#pragma HLS ARRAY_PARTITION dim=8 factor=1 type=cyclic variable=dst
@@ -180,6 +186,7 @@ void lwht64(const dtypex8_t src[64], dtypex8_t dst[64])
     stg5[7] = addsub_fx( stg4[7], stg4[7], 0xCC, 2 );
 
     // ----- Étape 2 : distance = 2 -----
+
     dst[0] = addsub_fx( stg5[0], stg5[0], 0xAA, 3 );
     dst[1] = addsub_fx( stg5[1], stg5[1], 0xAA, 3 );
     dst[2] = addsub_fx( stg5[2], stg5[2], 0xAA, 3 );
