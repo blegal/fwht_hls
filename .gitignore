@@ -49,3 +49,4 @@ solution1.directive
 *.log
 *data.json
 decoder/bin/main
+vitis_2025_2_workspace/
