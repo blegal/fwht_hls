@@ -17,6 +17,34 @@
 //
 //
 //
+FILE* fo = nullptr;
+void init_file(const std::string fname)
+{
+  fo = fopen(fname.c_str(), "w");
+  if (fo == nullptr) {
+    printf("error opening file (%s)\n", fname.c_str());
+    exit(-1);
+  }
+}
+void close_file( ) {
+  fclose(fo);
+}
+void dump_values(const t_i_memo& v, const std::string name, const int idx) {
+  fprintf(fo, "%s [%d]\n", name.c_str(), idx);
+  for (int i = 0; i < gf_size; i++) {
+    if (i     == 0) printf("%3d :", i);
+    else if (i % 8 == 0) printf("\n%3d :", i);
+    printf("%+12d ", v.value[i].to_int());
+  }
+  printf("\n\n");
+}
+//
+//
+//
+//////////////////////////////////////////////////////////////////////
+//
+//
+//
 void the_decoder_v2(
 			t_i_memo channel[N],
 			uint8_t  decoded[N])
