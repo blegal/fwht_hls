@@ -1102,7 +1102,7 @@ private:
             int src_2 = (p_llrs + size + n/2);
             int dst   = (p_llrs + size + n);
             int lastdst = dst;
-            bool first = true;
+//          bool first = true;
             while ( n_2 != 1 ) {
                 ofile << "  cnt_c = " << dst << "; cnt_a = " <<  src_1    << "; cnt_b = " << src_2 << ";" << std::endl;
                 ofile << "  loop_rep_" << (loop_id++) << " : for (s = 0; s < " << (n_2) << "; s += 1) {"     << std::endl;
@@ -1121,7 +1121,7 @@ private:
                 lastdst = dst;
                 dst   += n_2;
                 n_2 /= 2;
-                first = false;
+//              first = false;
             }
             ofile << "  cnt_c = " << (lastdst + 2) << "; cnt_a = " << lastdst << "; cnt_b = " << (lastdst + 1) << ";"   << std::endl;
             ofile << "  lwht_in_a   = internal_l[cnt_a];"   << std::endl;
