@@ -368,7 +368,112 @@ void the_decoder_v2(
             uint8_t  decoded[256]);
 //
 //
+#if (t_N == 64) && (t_K == 16)
+#include "tests/N64_K16.hpp"
+#elif (t_N == 64) && (t_K == 21)
+#include "tests/N64_K21.hpp"
+#elif (t_N == 64) && (t_K == 26)
+#include "tests/N64_K26.hpp"
+#elif (t_N == 64) && (t_K == 32)
+#include "tests/N64_K32.hpp"
+#elif (t_N == 64) && (t_K == 48)
+#include "tests/N64_K48.hpp"
+#elif (t_N == 64) && (t_K == 51)
+#include "tests/N64_K51.hpp"
+
+#elif (t_N == 128) && (t_K == 32)
+#include "tests/N128_K32.hpp"
+#elif (t_N == 128) && (t_K == 42)
+#include "tests/N128_K42.hpp"
+#elif (t_N == 128) && (t_K == 51)
+#include "tests/N128_K51.hpp"
+#elif (t_N == 128) && (t_K == 64)
+#include "tests/N128_K64.hpp"
+#elif (t_N == 128) && (t_K == 96)
+#include "tests/N128_K96.hpp"
+#elif (t_N == 128) && (t_K == 102)
+#include "tests/N128_K102.hpp"
+#elif (t_N == 256) && (t_K == 64)
+#include "tests/N256_K64.hpp"
+#elif (t_N == 256) && (t_K == 84)
+#include "tests/N256_K84.hpp"
+#elif (t_N == 256) && (t_K == 102)
+#include "tests/N256_K102.hpp"
+#elif (t_N == 256) && (t_K == 128)
+#include "tests/N256_K128.hpp"
+#elif (t_N == 256) && (t_K == 192)
+#include "tests/N256_K192.hpp"
+#elif (t_N == 256) && (t_K == 205)
+#include "tests/N256_K205.hpp"
+#endif
+//
+//
 TEST_CASE( "decoder", "[decoder]" ) {
+    printf("i_lwht_width = %d bits\n", i_lwht_width);
+    printf("o_lwht_width = %d bits\n", o_lwht_width);
+    printf("i_mult_width = %d bits\n", i_mult_width);
+    printf("o_mult_width = %d bits\n", o_mult_width);
+    printf("i_norm_width = %d bits\n", i_norm_width);
+    printf("o_norm_width = %d bits\n", o_norm_width);
+    printf("\n");
+    printf("Parameter N  = %4d symb (log2 = %d)\n", t_N, t_log2N);
+    printf("Parameter K  = %4d symb\n", t_K);
+    const float R = 100.f * (float)t_K / (float)t_N;
+    printf("Parameter R  = %4d symb\n", (int)R);
+    printf("Parameter GF = %4d elmt (log2 = %d)\n", t_GF, t_log2GF);
+    printf("\n");
+
+    t_i_memo channel[t_N];
+    uint8_t  decoded[t_N];
+
+    // Input initialization
+
+    for (int i = 0; i < N; i++) {
+        const int symb = i_symb[i];
+        for (int j = 0; j < gf_size; j++) {
+            channel[i].value[j] = 0;
+        }
+        channel[i].value[symb] = 2047;
+    }
+
+    // Output initialization
+
+    for (int i = 0; i < N; i++) {
+        decoded[i] = 0;
+    }
+
+    the_decoder_v2(channel, decoded);
+
+    printf("#(II)\n");
+    printf("#(II) K decoded symbols (%3d) :\n", N);
+    printf("#(II) ------------------------\n");
+    printf("#(II)");
+    for (int i = 0; i < N; i += 1) {
+        if (((i % 16) == 0))
+            printf("|\n#(II) %3d ", i);
+        if ( (i%8) == 0 ) printf("| ");
+        else if ( (i%4) == 0 ) printf("  ");
+        if (decoded[i] == o_symb[i]) {
+            printf("\e[1;32m%2d\e[0m ", (int)decoded[i]);
+        } else {
+            printf("\e[1;31m%2d\e[0m ", (int)decoded[i]);
+            //printf("\e[1;31m%2d (%2d)\e[0m ", decoded[i], o_symb[i]);
+        }
+    }
+    printf("|\n");
+
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+void the_decoder_v3(
+            t_i_memo channel[t_N],
+            uint8_t  decoded[t_N]);
+//
+//
+TEST_CASE( "decoder_v3", "[decoder_v3]" ) {
 
 
     printf("i_lwht_width = %d bits\n", i_lwht_width);
@@ -384,45 +489,6 @@ TEST_CASE( "decoder", "[decoder]" ) {
     printf("Parameter R  = %4d symb\n", (int)R);
     printf("Parameter GF = %4d elmt (log2 = %d)\n", t_GF, t_log2GF);
     printf("\n");
-#if (t_N == 64) && (t_K == 16)
-    #include "tests/N64_K16.hpp"
-#elif (t_N == 64) && (t_K == 21)
-    #include "tests/N64_K21.hpp"
-#elif (t_N == 64) && (t_K == 26)
-    #include "tests/N64_K26.hpp"
-#elif (t_N == 64) && (t_K == 32)
-    #include "tests/N64_K32.hpp"
-#elif (t_N == 64) && (t_K == 48)
-    #include "tests/N64_K48.hpp"
-#elif (t_N == 64) && (t_K == 51)
-    #include "tests/N64_K51.hpp"
-
-#elif (t_N == 128) && (t_K == 32)
-    #include "tests/N128_K32.hpp"
-#elif (t_N == 128) && (t_K == 42)
-    #include "tests/N128_K42.hpp"
-#elif (t_N == 128) && (t_K == 51)
-    #include "tests/N128_K51.hpp"
-#elif (t_N == 128) && (t_K == 64)
-    #include "tests/N128_K64.hpp"
-#elif (t_N == 128) && (t_K == 96)
-    #include "tests/N128_K96.hpp"
-#elif (t_N == 128) && (t_K == 102)
-    #include "tests/N128_K102.hpp"
-
-#elif (t_N == 256) && (t_K == 64)
-    #include "tests/N256_K64.hpp"
-#elif (t_N == 256) && (t_K == 84)
-    #include "tests/N256_K84.hpp"
-#elif (t_N == 256) && (t_K == 102)
-    #include "tests/N256_K102.hpp"
-#elif (t_N == 256) && (t_K == 128)
-    #include "tests/N256_K128.hpp"
-#elif (t_N == 256) && (t_K == 192)
-    #include "tests/N256_K192.hpp"
-#elif (t_N == 256) && (t_K == 205)
-    #include "tests/N256_K205.hpp"
-#endif
 
     t_i_memo channel[N];
     uint8_t  decoded[N];
@@ -443,7 +509,7 @@ TEST_CASE( "decoder", "[decoder]" ) {
         decoded[i] = 0;
     }
 
-    the_decoder_v2(channel, decoded);
+    the_decoder_v3(channel, decoded);
 
     printf("#(II)\n");
     printf("#(II) K decoded symbols (%3d) :\n", N);

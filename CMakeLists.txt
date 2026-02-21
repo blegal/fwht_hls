@@ -48,6 +48,7 @@ add_executable(hls_test
 		src/impl/f_xor_processor.cpp
 		src/hls_decoder.cpp
 		src/gen_decoder.cpp
+		src/hls_decoder_v2.cpp
 		src/test.cpp
 	)
 target_include_directories (hls_test PUBLIC ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/src/common)

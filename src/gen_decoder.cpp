@@ -18,7 +18,7 @@
 //
 //
 FILE* fo = nullptr;
-void init_file(const std::string fname)
+inline void init_file(const std::string fname)
 {
   fo = fopen(fname.c_str(), "w");
   if (fo == nullptr) {
@@ -26,17 +26,17 @@ void init_file(const std::string fname)
     exit(-1);
   }
 }
-void close_file( ) {
+inline void close_file( ) {
   fclose(fo);
 }
-void dump_values(const t_i_memo& v, const std::string name, const int idx) {
+inline void dump_values(const t_i_memo& v, const std::string name, const int idx) {
   fprintf(fo, "%s [%d]\n", name.c_str(), idx);
   for (int i = 0; i < gf_size; i++) {
-    if (i     == 0) printf("%3d :", i);
-    else if (i % 8 == 0) printf("\n%3d :", i);
-    printf("%+12d ", v.value[i].to_int());
+         if (i     == 0) fprintf(fo, "%3d :",   i);
+    else if (i % 8 == 0) fprintf(fo, "\n%3d :", i);
+    fprintf(fo, "%+12d ", v.value[i].to_int());
   }
-  printf("\n\n");
+  fprintf(fo, "\n\n");
 }
 //
 //
@@ -49,6 +49,10 @@ void the_decoder_v2(
 			t_i_memo channel[N],
 			uint8_t  decoded[N])
 {
+  //// debug code
+  init_file("reference.txt");
+  //// debug code
+
 #pragma HLS bind_storage variable=channel type=RAM_2P  impl=BRAM
 
 #pragma HLS ARRAY_PARTITION dim=1 type=cyclic variable=decoded  factor=4
@@ -112,6 +116,11 @@ void the_decoder_v2(
     cnt_c += 1; cnt_a += 1; cnt_b += 1;
   }
 
+  //// debug code
+  for (int s = 0; s < 128; s += 1)
+    dump_values(internal_l[s], "loop", s);
+  //// debug code
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // middle_node_pruned_rate_0 [hls_generator:407]
@@ -147,6 +156,11 @@ void the_decoder_v2(
     cnt_a += 1; // src 1
     cnt_b += 1; // src 2
   }
+
+  //// debug code
+  for (int s = 0; s < 64; s += 1)
+    dump_values(internal_l[128+s], "loop", s);
+  //// debug code
 
   ////////////////////////////////////////////////////////////////////////////
   //
@@ -184,6 +198,11 @@ void the_decoder_v2(
     cnt_b += 1; // src 2
   }
 
+  //// debug code
+  for (int s = 0; s < 32; s += 1)
+    dump_values(internal_l[192+s], "loop", s);
+  //// debug code
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // middle_node_pruned_rate_0 [hls_generator:407]
@@ -220,6 +239,11 @@ void the_decoder_v2(
     cnt_b += 1; // src 2
   }
 
+  //// debug code
+  for (int s = 0; s < 16; s += 1)
+    dump_values(internal_l[224+s], "loop", s);
+  //// debug code
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // middle_node_pruned_rate_0 [hls_generator:407]
@@ -255,6 +279,13 @@ void the_decoder_v2(
     cnt_a += 1; // src 1
     cnt_b += 1; // src 2
   }
+
+  //// debug code
+  for (int s = 0; s < 8; s += 1)
+    dump_values(internal_l[240+s], "loop", s);
+  //// debug code
+  close_file();
+  //// debug code
 
   ////////////////////////////////////////////////////////////////////////////
   //
