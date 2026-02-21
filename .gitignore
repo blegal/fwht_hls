@@ -34,7 +34,6 @@
 
 .apc
 .autopilot
-impl
 .debug
 .settings
 syn
@@ -50,3 +49,5 @@ solution1.directive
 *data.json
 decoder/bin/main
 vitis_2025_2_workspace/
+
+build/
