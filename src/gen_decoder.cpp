@@ -38,6 +38,15 @@ inline void dump_values(const t_i_memo& v, const std::string name, const int idx
   }
   fprintf(fo, "\n\n");
 }
+inline void dump_values(const uint8_t* v, const int nvalues, const std::string name) {
+  fprintf(fo, "%s\n", name.c_str());
+  for (int i = 0; i < nvalues; i++) {
+    if (i     == 0) fprintf(fo, "%3d :",   i);
+    else if (i % 16 == 0) fprintf(fo, "\n%3d :", i);
+    fprintf(fo, "%+3d ", v[i]);
+  }
+  fprintf(fo, "\n\n");
+}
 //
 //
 //
@@ -284,8 +293,6 @@ void the_decoder_v2(
   for (int s = 0; s < 8; s += 1)
     dump_values(internal_l[240+s], "loop", s);
   //// debug code
-  close_file();
-  //// debug code
 
   ////////////////////////////////////////////////////////////////////////////
   //
@@ -301,7 +308,12 @@ void the_decoder_v2(
     cnt_rw += 1;
     xor_proc_i[s]     = symbol_v;
   }
+
   v64_xor_processor(xor_proc_o, xor_proc_i, 7);
+
+  //// debug code
+		dump_values(symbols_l, 128, "rate_1");
+  //// debug code
 
   ////////////////////////////////////////////////////////////////////////////
   //
@@ -323,6 +335,13 @@ void the_decoder_v2(
     cnt_u  += 1;
   }
 
+  //// debug code
+  dump_values(symbols_l, 128, "xor_loop_symbols");
+  dump_values(decoded,   128, "xor_loop_decoded");
+  //// debug code
+  close_file();
+  //// debug code
+
   cnt_rw = cnt_u; /* synchro */
 
   ////////////////////////////////////////////////////////////////////////////
@@ -342,6 +361,10 @@ void the_decoder_v2(
     cnt_rd += 1;
     cnt_rw += 1;
   }
+
+  //// debug code
+  dump_values(symbols_l, 128, "xor_loop_symbols");
+  //// debug code
 
   cnt_rw = cnt_u; /* synchro */
 
@@ -363,6 +386,10 @@ void the_decoder_v2(
     cnt_rw += 1;
   }
 
+  //// debug code
+  dump_values(symbols_l, 128, "xor_loop_symbols");
+  //// debug code
+
   cnt_rw = cnt_u; /* synchro */
 
   ////////////////////////////////////////////////////////////////////////////
@@ -382,6 +409,12 @@ void the_decoder_v2(
     cnt_rd += 1;
     cnt_rw += 1;
   }
+
+  //// debug code
+  dump_values(symbols_l, 128, "xor_loop_symbols");
+  //// debug code
+  close_file();
+  //// debug code
 
   cnt_rw = cnt_u; /* synchro */
 

@@ -46,6 +46,15 @@ inline void dump_values(const t_i_memo& v, const std::string name, const int idx
 	}
 	fprintf(fou, "\n\n");
 }
+inline void dump_values(const uint8_t* v, const int nvalues, const std::string name) {
+	fprintf(fou, "%s\n", name.c_str());
+	for (int i = 0; i < nvalues; i++) {
+		if (i     == 0) fprintf(fou, "%3d :",   i);
+		else if (i % 16 == 0) fprintf(fou, "\n%3d :", i);
+		fprintf(fou, "%+3d ", v[i]);
+	}
+	fprintf(fou, "\n\n");
+}
 //
 //
 //
@@ -99,6 +108,7 @@ void the_decoder_v3(
 		bool  is_decoded;
 		bool  is_rate0;
 		bool  is_rep;
+		uint8_t  xorp_c;
 		int   cnt_c;  // dest de datapath
 		int   cnt_a;  // src 1 de datapath
 		int   cnt_b;  // src 2 de datapath
@@ -112,7 +122,7 @@ void the_decoder_v3(
 		//
 		{
 		true, 128, true, false, true,
-		 false, false, false, false,
+		 false, false, false, false, 0,
 		0, 0, 128, 0, 0
 		},
 		//
@@ -120,7 +130,7 @@ void the_decoder_v3(
 		//
 	{
 			true, 64, false, true, true,
-			true, true, true, false,
+			true, true, true, false, 0,
 			128, 0, 64, 0, 0 /*useless*/
 		},
 		//
@@ -128,7 +138,7 @@ void the_decoder_v3(
 		//
 	{
 		true, 32, false, true, false,
-		false, false, true, false,
+		false, true, true, false, 0,
 		192, 128, 160, 64, 64 /*useless*/
 		},
 		//
@@ -136,7 +146,7 @@ void the_decoder_v3(
 		//
 	{
 		true, 16, false, true, false,
-		false, false, true, false,
+		false, true, true, false, 0,
 		224, 192, 208, 96, 96  /*useless*/
 		},
 		//
@@ -144,7 +154,7 @@ void the_decoder_v3(
 		//
 	{
 		true, 8, false, true, false,
-		false, false, true, false,
+		false, true, true, false, 0,
 		240, 224, 232, 112, 112
 		},
 		//
@@ -152,18 +162,51 @@ void the_decoder_v3(
 		//
 	{
 		true, 8, false, false, false,
-		false, false, true, false,
+		true, false, false, false, 7,
 		248, 240, 248, 120, 120
 		},
+		//
+		// 6 : loop 11 : xor loop (with u) : OK
+		//
+	{
+		false, 8, false, false, false,
+		true, true, false, false, 7,
+		248, 240, 248, 112, 120
+		},
+		//
+		// 7 : loop 12 : xor loop (with NO u) : OK
+		//
+	{
+		false, 16, false, false, false,
+		true, true, false, false, 0,
+		240, 240, 240, 96, 112
+		},
+		//
+		// 8 : loop 13 : xor loop (with NO u) : OK
+		//
+	{
+		false, 32, false, false, false,
+		true, true, false, false, 0,
+		224, 224, 224, 64, 96
+		},
+		//
+		// 9 : loop 14 : xor loop (with NO u) : OK
+		//
+	{
+		false, 64, false, false, false,
+		true, true, false, false, 0,
+		192, 192, 192, 0, 64
+		},
+
 
 	{ // oups c pas cool !
 		true, 1, false, false, true,
-		false, false, false, false,
+		false, false, false, false, 0,
 		62, 60, 61, 16, 16
 		}
 };
 
-	for (int i = 0; i < 5; i += 1) {
+	for (int i = 0; i < 10; i += 1) {
 	//
 	// LA BOUCLE SUR LES INSTRUCTIONS (debut)
 	//
@@ -192,8 +235,8 @@ void the_decoder_v3(
 			//
 			// on incremente ou pas les counter
 			//
-			cnt_a += 1;
-			cnt_b += 1;
+			cnt_a = 1;
+			cnt_b = 1;
 
 			//
 			// input symbol ou zero
@@ -206,7 +249,7 @@ void the_decoder_v3(
 			//
 			//
 			const auto memo_in_a = datapath(lwht_in_a, lwht_in_b, symbol_i, ins.fwht_conv);
-			const auto symbol_v    = vec_decision( memo_in_a, ins.fwht_conv ); // conversion is common with datapath
+			const auto symbol_v    = vec_decision( lwht_in_a, ins.fwht_conv ); // conversion is common with datapath
 
 			internal[cnt_c] = memo_in_a; // on store la datat
 			cnt_c += 1;
@@ -217,26 +260,47 @@ void the_decoder_v3(
 			// entrée de decoded
 			// soit c symbol_v, soit xor_proc_o[s] ou zero
 			const uint8_t e_symb  = ins.is_rate0 ? 0 : symbol_v; // OK pour rate 0
-			const uint8_t f_symb  = ins.is_rep   ? 0 : symbol_v;
+			const uint8_t f_symb  = ins.is_f_g_rep_spc ? e_symb : xor_proc_o[s];
 			// ATTENTION AU REP c uniquement à size -1 !!!
 			decoded[cnt_u]  = f_symb;
-			cnt_u = (ins.is_decoded) ? (cnt_u + 1) : 0;
+			if ( ins.is_decoded ) {
+				printf("Writing in decoded[%d] : %3d [rate_0 = %d]\n", cnt_u, (int)f_symb, ins.is_rate0);
+			}
+			cnt_u = (ins.is_decoded) ? (cnt_u + 1) : cnt_u;
 
 			// entrée de symbol
 			// soit c symbol_v, soit  zero, soit symbols_l xor symbols_l
 			symbols[cnt_rw] = e_symb;
-			cnt_rw = (ins.is_decoded) ? (cnt_rw + 1) : 0;
+			cnt_rw = (ins.is_decision) ? (cnt_rw + 1) : cnt_rw;
 			// incr ou pas (read et write en single)
 		}
 
-		v64_xor_processor(xor_proc_o, xor_proc_i, 7);
+		v64_xor_processor(xor_proc_o, xor_proc_i, ins.xorp_c);
 
 	//
 	// LA BOUCLE SUR LES INSTRUCTIONS (debut)
 	//
 	//// debug code
-	for (int s = 0; s < ins.loop_size; s += 1)
-		dump_values(internal[ins.cnt_c + s], "loop", s);
+	if( i == 5 ) {
+		dump_values(symbols, 128, "rate_1");
+
+	}else if( i == 6 ) {
+		dump_values(symbols, 128, "xor_loop_symbols");
+		dump_values(decoded, 128, "xor_loop_decoded");
+
+	}else if( i == 7 ) {
+		dump_values(symbols, 128, "xor_loop_symbols");
+
+	}else if( i == 8 ) {
+		dump_values(symbols, 128, "xor_loop_symbols");
+
+	}else if( i == 9 ) {
+		dump_values(symbols, 128, "xor_loop_symbols");
+
+	} else {
+		for (int s = 0; s < ins.loop_size; s += 1)
+			dump_values(internal[ins.cnt_c + s], "loop", s);
+	}
 	//// debug code
 	}
 
