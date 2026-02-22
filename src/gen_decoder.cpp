@@ -337,9 +337,7 @@ void the_decoder_v2(
 
   //// debug code
   dump_values(symbols_l, 128, "xor_loop_symbols");
-  dump_values(decoded,   128, "xor_loop_decoded");
-  //// debug code
-  close_file();
+  dump_values(decoded,   128, "xor_loop_decoded_8");
   //// debug code
 
   cnt_rw = cnt_u; /* synchro */
@@ -363,7 +361,7 @@ void the_decoder_v2(
   }
 
   //// debug code
-  dump_values(symbols_l, 128, "xor_loop_symbols");
+  dump_values(symbols_l, 128, "xor_loop_symbols_16");
   //// debug code
 
   cnt_rw = cnt_u; /* synchro */
@@ -387,7 +385,7 @@ void the_decoder_v2(
   }
 
   //// debug code
-  dump_values(symbols_l, 128, "xor_loop_symbols");
+  dump_values(symbols_l, 128, "xor_loop_symbols_32");
   //// debug code
 
   cnt_rw = cnt_u; /* synchro */
@@ -411,9 +409,7 @@ void the_decoder_v2(
   }
 
   //// debug code
-  dump_values(symbols_l, 128, "xor_loop_symbols");
-  //// debug code
-  close_file();
+  dump_values(symbols_l, 128, "xor_loop_symbols_64");
   //// debug code
 
   cnt_rw = cnt_u; /* synchro */
@@ -435,6 +431,11 @@ void the_decoder_v2(
     cnt_c += 1; cnt_a += 1; cnt_b += 1; cnt_rd += 1;
   }
 
+  //// debug code
+  for (int s = 0; s < 128; s += 1)
+    dump_values(internal_l[s], "loop", s);
+  //// debug code
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // f_function_proba_in [hls_generator:346]
@@ -451,6 +452,11 @@ void the_decoder_v2(
     internal_r[cnt_c] = memo_in_a;
     cnt_c += 1; cnt_a += 1; cnt_b += 1;
   }
+
+  //// debug code
+  for (int s = 0; s < 64; s += 1)
+    dump_values(internal_l[128+s], "loop", s);
+  //// debug code
 
   ////////////////////////////////////////////////////////////////////////////
   //
@@ -469,6 +475,11 @@ void the_decoder_v2(
     cnt_c += 1; cnt_a += 1; cnt_b += 1;
   }
 
+  //// debug code
+  for (int s = 0; s < 32; s += 1)
+    dump_values(internal_l[192+s], "loop", s);
+  //// debug code
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // f_function_freq_in [hls_generator:319]
@@ -485,6 +496,11 @@ void the_decoder_v2(
     internal_r[cnt_c] = memo_in_a;
     cnt_c += 1; cnt_a += 1; cnt_b += 1;
   }
+
+  //// debug code
+  for (int s = 0; s < 16; s += 1)
+    dump_values(internal_l[224+s], "loop", s);
+  //// debug code
 
   ////////////////////////////////////////////////////////////////////////////
   //
@@ -503,6 +519,11 @@ void the_decoder_v2(
     cnt_c += 1; cnt_a += 1; cnt_b += 1;
   }
 
+  //// debug code
+  for (int s = 0; s < 8; s += 1)
+    dump_values(internal_l[240+s], "loop", s);
+  //// debug code
+
   ////////////////////////////////////////////////////////////////////////////
   //
   // f_function_freq_in [hls_generator:319]
@@ -519,6 +540,13 @@ void the_decoder_v2(
     internal_r[cnt_c] = memo_in_a;
     cnt_c += 1; cnt_a += 1; cnt_b += 1;
   }
+
+  //// debug code
+  for (int s = 0; s < 4; s += 1)
+    dump_values(internal_l[248+s], "loop", s);
+  //// debug code
+  close_file();
+  //// debug code
 
   ////////////////////////////////////////////////////////////////////////////
   //

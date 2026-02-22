@@ -36,8 +36,10 @@ inline void init_file(const std::string fname)
 }
 inline void close_file( ) {
 	fclose(fou);
+	fou = nullptr;
 }
 inline void dump_values(const t_i_memo& v, const std::string name, const int idx) {
+	if ( fou == nullptr ) return;
 	fprintf(fou, "%s [%d]\n", name.c_str(), idx);
 	for (int i = 0; i < gf_size; i++) {
 		if (i     == 0)      fprintf(fou, "%3d :",   i);
@@ -47,6 +49,7 @@ inline void dump_values(const t_i_memo& v, const std::string name, const int idx
 	fprintf(fou, "\n\n");
 }
 inline void dump_values(const uint8_t* v, const int nvalues, const std::string name) {
+	if ( fou == nullptr ) return;
 	fprintf(fou, "%s\n", name.c_str());
 	for (int i = 0; i < nvalues; i++) {
 		if (i     == 0) fprintf(fou, "%3d :",   i);
@@ -178,7 +181,7 @@ void the_decoder_v3(
 		//
 	{
 		false, 16, false, false, false,
-		true, true, false, false, 0,
+		true, false, false, false, 0,
 		240, 240, 240, 96, 112
 		},
 		//
@@ -186,7 +189,7 @@ void the_decoder_v3(
 		//
 	{
 		false, 32, false, false, false,
-		true, true, false, false, 0,
+		true, false, false, false, 0,
 		224, 224, 224, 64, 96
 		},
 		//
@@ -194,9 +197,72 @@ void the_decoder_v3(
 		//
 	{
 		false, 64, false, false, false,
-		true, true, false, false, 0,
+		true, false, false, false, 0,
 		192, 192, 192, 0, 64
 		},
+		//
+		// 10 : loop 15 : g_function_proba_in : OK
+		//
+	{
+		true, 128, true, true, false,
+		 false, false, false, false, 0,
+		0, 0, 128, 0, 0
+		},
+		//
+		// 11 : loop 16 : f_function_proba_in : OK
+		//
+	{
+		true, 64, false, false, true,
+		false, false, false, false, 0,
+		128, 0, 64, 0, 0
+		},
+		//
+		// 12 : loop 17 : f_function_freq_in : OK
+		//
+	{
+		true, 32, false, false, false,
+		false, false, false, false, 0,
+		192, 128, 160, 0, 0
+		},
+		//
+		// 13 : loop 18 : f_function_freq_in : OK
+		//
+	{
+		true, 16, false, false, false,
+		false, false, false, false, 0,
+		224, 192, 208, 0, 0
+		},
+		//
+		// 14 : loop 19 : f_function_freq_in : OK
+		//
+	{
+		true, 8, false, false, false,
+		false, false, false, false, 0,
+		240, 224, 232, 0, 0
+		},
+		//
+		// 15 : loop 20 : f_function_freq_in : OK
+		//
+	{
+		true, 4, false, false, false,
+		false, false, false, false, 0,
+		248, 240, 244, 0, 0
+		},
+		//
+		// 16 : loop 21 : middle_node_pruned_rep_after_f : OK
+		//
+	{
+		true, 2, false, false, true,
+		false, false, false, false, 0,
+		252, 248, 250, 0, 0
+		},
+	{
+		true, 1, false, false, false,
+		false, false, false, false, 0,
+		254, 254, 254, 0, 0
+		},
+		// On a un probleme Houston !
+
 
 
 	{ // oups c pas cool !
@@ -206,7 +272,7 @@ void the_decoder_v3(
 		}
 };
 
-	for (int i = 0; i < 10; i += 1) {
+	for (int i = 0; i < 16; i += 1) {
 	//
 	// LA BOUCLE SUR LES INSTRUCTIONS (debut)
 	//
@@ -235,8 +301,8 @@ void the_decoder_v3(
 			//
 			// on incremente ou pas les counter
 			//
-			cnt_a = 1;
-			cnt_b = 1;
+			cnt_a += 1;
+			cnt_b += 1;
 
 			//
 			// input symbol ou zero
@@ -263,14 +329,15 @@ void the_decoder_v3(
 			const uint8_t f_symb  = ins.is_f_g_rep_spc ? e_symb : xor_proc_o[s];
 			// ATTENTION AU REP c uniquement à size -1 !!!
 			decoded[cnt_u]  = f_symb;
-			if ( ins.is_decoded ) {
-				printf("Writing in decoded[%d] : %3d [rate_0 = %d]\n", cnt_u, (int)f_symb, ins.is_rate0);
-			}
+			//if ( ins.is_decoded ) {
+			//	printf("Writing in decoded[%d] : %3d [rate_0 = %d]\n", cnt_u, (int)f_symb, ins.is_rate0);
+			//}
 			cnt_u = (ins.is_decoded) ? (cnt_u + 1) : cnt_u;
 
 			// entrée de symbol
 			// soit c symbol_v, soit  zero, soit symbols_l xor symbols_l
-			symbols[cnt_rw] = e_symb;
+			const uint8_t g_symb  = symbols[cnt_rw];
+			symbols[cnt_rw] = ins.is_f_g_rep_spc ? e_symb : (m_symb ^ g_symb);
 			cnt_rw = (ins.is_decision) ? (cnt_rw + 1) : cnt_rw;
 			// incr ou pas (read et write en single)
 		}
@@ -286,16 +353,16 @@ void the_decoder_v3(
 
 	}else if( i == 6 ) {
 		dump_values(symbols, 128, "xor_loop_symbols");
-		dump_values(decoded, 128, "xor_loop_decoded");
+		dump_values(decoded, 128, "xor_loop_decoded_8");
 
 	}else if( i == 7 ) {
-		dump_values(symbols, 128, "xor_loop_symbols");
+		dump_values(symbols, 128, "xor_loop_symbols_16");
 
 	}else if( i == 8 ) {
-		dump_values(symbols, 128, "xor_loop_symbols");
+		dump_values(symbols, 128, "xor_loop_symbols_32");
 
 	}else if( i == 9 ) {
-		dump_values(symbols, 128, "xor_loop_symbols");
+		dump_values(symbols, 128, "xor_loop_symbols_64");
 
 	} else {
 		for (int s = 0; s < ins.loop_size; s += 1)
