@@ -18,11 +18,11 @@ t_ram<W+log2q, q> vec_interleave(const t_ram<W+log2q, q> src, const ap_uint<log2
 {
 #pragma HLS INLINE
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=src.value
-	ap_uint<log2q> tab;
+	ap_uint<log2q> tab[q];
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=tab
 	for (int i = 0; i < q; i += 1)
 		tab[i] = (symbol ^ i);
-	t_ram<W+log2q, q> dst;
+    t_ram<W+log2q, q> dst;
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
 	for (int i = 0; i < q; i += 1)
 		dst.value[i] = src.value[ tab[i] ];

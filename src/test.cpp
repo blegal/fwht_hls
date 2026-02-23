@@ -38,6 +38,7 @@
 #include "gen_decoder.hpp"
 //
 #include "arch/i_fwht.hpp"
+#include "impl/f_interleave.hpp"
 //
 //
 ////////////////////////////////////////////////////////////////////
@@ -272,6 +273,176 @@ TEST_CASE( "fwht_32", "[fwht_32]" )
             REQUIRE( v_ou.value[i] == f_in[i] );
         }
         //
+    }
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+TEST_CASE( "pi_4", "[pi_4]" )
+{
+    const int GF = 4;
+    for (int k = 0; k < GF; k++) {
+        int32_t f_in[GF], f_ou[GF];
+        t_ram<14, 4> v_in, v_ou;
+        for (int j = 0; j < GF; j++) {  // Generating test samples
+            v_in.value[j] = f_in[j] = (rand()%1024) - 512;
+        }
+        v_ou = hls_interleaver_gf4( v_in, k ); // the HW implementation
+        //
+        for (int i = 0; i < GF; i += 1)    // software implementation
+            f_ou[i] = f_in[k ^ i];              // of the processing
+        //
+        for (int i = 0; i < GF; i++) {              // Result comparison to
+            REQUIRE( v_ou.value[i] == f_ou[i] );    // validate the HW description
+        }
+    }
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+//
+//
+TEST_CASE( "pi_8", "[pi_8]" )
+{
+    const int GF = 8;
+    for (int k = 0; k < GF; k++) {
+        int32_t f_in[GF], f_ou[GF];
+        t_ram<15, 8> v_in, v_ou;
+        for (int j = 0; j < GF; j++) {  // Generating test samples
+            v_in.value[j] = f_in[j] = (rand()%1024) - 512;
+        }
+        v_ou = hls_interleaver_gf8( v_in, k ); // the HW implementation
+        //
+        for (int i = 0; i < GF; i += 1)    // software implementation
+            f_ou[i] = f_in[k ^ i];              // of the processing
+        //
+        for (int i = 0; i < GF; i++) {              // Result comparison to
+            REQUIRE( v_ou.value[i] == f_ou[i] );    // validate the HW description
+        }
+    }
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+TEST_CASE( "pi_16", "[pi_16]" )
+{
+    const int GF = 16;
+    for (int k = 0; k < GF; k++) {
+        int32_t f_in[GF], f_ou[GF];
+        t_ram<16, 16> v_in, v_ou;
+        for (int j = 0; j < GF; j++) {  // Generating test samples
+            v_in.value[j] = f_in[j] = (rand()%1024) - 512;
+        }
+        v_ou = hls_interleaver_gf16( v_in, k ); // the HW implementation
+        //
+        for (int i = 0; i < GF; i += 1)    // software implementation
+            f_ou[i] = f_in[k ^ i];              // of the processing
+        //
+        for (int i = 0; i < GF; i++) {              // Result comparison to
+            REQUIRE( v_ou.value[i] == f_ou[i] );    // validate the HW description
+        }
+    }
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+TEST_CASE( "pi_32", "[pi_32]" )
+{
+    const int GF = 32;
+    for (int k = 0; k < GF; k++) {
+        int32_t f_in[GF], f_ou[GF];
+        t_ram<17, 32> v_in, v_ou;
+        for (int j = 0; j < GF; j++) {  // Generating test samples
+            v_in.value[j] = f_in[j] = (rand()%1024) - 512;
+        }
+        v_ou = hls_interleaver_gf32( v_in, k ); // the HW implementation
+        //
+        for (int i = 0; i < GF; i += 1)    // software implementation
+            f_ou[i] = f_in[k ^ i];              // of the processing
+        //
+        for (int i = 0; i < GF; i++) {              // Result comparison to
+            REQUIRE( v_ou.value[i] == f_ou[i] );    // validate the HW description
+        }
+    }
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+TEST_CASE( "pi_64", "[pi_64]" )
+{
+    const int GF = 64;
+    for (int k = 0; k < GF; k++) {
+        int32_t f_in[GF], f_ou[GF];
+        t_ram<18, 64> v_in, v_ou;
+        for (int j = 0; j < GF; j++) {  // Generating test samples
+            v_in.value[j] = f_in[j] = (rand()%1024) - 512;
+        }
+        v_ou = hls_interleaver_gf64( v_in, k ); // the HW implementation
+        //
+        for (int i = 0; i < GF; i += 1)    // software implementation
+            f_ou[i] = f_in[k ^ i];              // of the processing
+        //
+        for (int i = 0; i < GF; i++) {              // Result comparison to
+            REQUIRE( v_ou.value[i] == f_ou[i] );    // validate the HW description
+        }
+    }
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+TEST_CASE( "pi_128", "[pi_128]" )
+{
+    const int GF = 128;
+    for (int k = 0; k < GF; k++) {
+        int32_t f_in[GF], f_ou[GF];
+        t_ram<19, 128> v_in, v_ou;
+        for (int j = 0; j < GF; j++) {  // Generating test samples
+            v_in.value[j] = f_in[j] = (rand()%1024) - 512;
+        }
+        v_ou = hls_interleaver_gf128( v_in, k ); // the HW implementation
+        //
+        for (int i = 0; i < GF; i += 1)    // software implementation
+            f_ou[i] = f_in[k ^ i];              // of the processing
+        //
+        for (int i = 0; i < GF; i++) {              // Result comparison to
+            REQUIRE( v_ou.value[i] == f_ou[i] );    // validate the HW description
+        }
+    }
+}
+//
+//
+////////////////////////////////////////////////////////////////////
+//
+//
+TEST_CASE( "pi_256", "[pi_256]" )
+{
+    const int GF = 256;
+    for (int k = 0; k < GF; k++) {
+        int32_t f_in[GF], f_ou[GF];
+        t_ram<20, 256> v_in, v_ou;
+        for (int j = 0; j < GF; j++) {  // Generating test samples
+            v_in.value[j] = f_in[j] = (rand()%1024) - 512;
+        }
+        v_ou = hls_interleaver_gf256( v_in, k ); // the HW implementation
+        //
+        for (int i = 0; i < GF; i += 1)    // software implementation
+            f_ou[i] = f_in[k ^ i];              // of the processing
+        //
+        for (int i = 0; i < GF; i++) {              // Result comparison to
+            REQUIRE( v_ou.value[i] == f_ou[i] );    // validate the HW description
+        }
     }
 }
 //
