@@ -225,9 +225,9 @@ gtuple<W, 6> argmax2_gf64(const t_ram<W, 64> inp)
 #pragma HLS INLINE
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=inp.value
 	//
-	gtuple<W, 6> s0[64];
+	gtuple<W, 6> s0[32];
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s0
-	for (int i = 0; i < 128; i += 2) // 64
+	for (int i = 0; i < 64; i += 2) // 64
 	{
 #pragma HLS UNROLL
 		const gtuple<W, 6> A = {inp.value[  i], i  };
@@ -235,36 +235,31 @@ gtuple<W, 6> argmax2_gf64(const t_ram<W, 64> inp)
 		s0[i >> 1] = f_max(A, B);
 	}
 	//
-	gtuple<W, 6> s1[32];
+	gtuple<W, 6> s1[16];
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s1
-	for (int i = 0; i < 64; i += 2)  // 32
+	for (int i = 0; i < 32; i += 2)  // 32
 		s1[i >> 1] = f_max(s0[i], s0[i+1]);
 	//
-	gtuple<W, 6> s2[16];
+	gtuple<W, 6> s2[8];
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s2
-	for (int i = 0; i < 32; i += 2)  // 32
+	for (int i = 0; i < 16; i += 2)  // 32
 		s2[i >> 1] = f_max(s1[i], s1[i+1]);
 	//
-	gtuple<W, 6> s3[8];
+	gtuple<W, 6> s3[4];
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s3
-	for (int i = 0; i < 16; i += 2)  // 16
+	for (int i = 0; i < 8; i += 2)  // 16
 		s3[i >> 1] = f_max(s2[i], s2[i+1]);
 	//
-	gtuple<W, 6> s4[4];
+	gtuple<W, 6> s4[2];
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s4
-	for (int i = 0; i < 8; i += 2)  // 8
+	for (int i = 0; i < 4; i += 2)  // 8
 		s4[i >> 1] = f_max(s3[i], s3[i+1]);
 	//
-	gtuple<W, 6> s5[2];
+	gtuple<W, 6> s5;
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s5
-	for (int i = 0; i < 4; i += 2) // 4
-		s5[i >> 1] = f_max(s4[i], s4[i+1]);
+	s5 = f_max(s4[0], s4[1]);
 	//
-	gtuple<W, 6> s6;
-#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=s6
-	s6 = f_max(s5[0], s5[1]);
-	//
-	return s6;
+	return s5;
 }
 //
 //
@@ -677,6 +672,24 @@ qtuple<12, 6> hls_argmax3_gf64(const t_ram<12, 64> src)
 #pragma HLS PIPELINE II=1
 #pragma HLS ARRAY_PARTITION variable=src.value complete
 	return argmax3_gf64<12>(src);
+}
+//
+//
+qtuple<12, 7> hls_argmax3_gf128(const t_ram<12, 128> src)
+{
+#pragma HLS INLINE off
+#pragma HLS PIPELINE II=1
+#pragma HLS ARRAY_PARTITION variable=src.value complete
+	return argmax3_gf128<12>(src);
+}
+//
+//
+qtuple<12, 8> hls_argmax3_gf256(const t_ram<12, 256> src)
+{
+#pragma HLS INLINE off
+#pragma HLS PIPELINE II=1
+#pragma HLS ARRAY_PARTITION variable=src.value complete
+	return argmax3_gf256<12>(src);
 }
 //
 //
