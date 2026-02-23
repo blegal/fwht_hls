@@ -598,7 +598,7 @@ qtuple<W, 7> argmax3_gf128(const t_ram<W, 128> inp)
 	const gtuple<W, 7> stg1 = argmax2_gf128(inp);
 	t_ram<W, 128> upd;
 	for (int i = 0; i < 128; i += 1)
-		upd.value[i] = (stg1.index == i) ? 0 : inp.value[i];
+		upd.value[i] = (stg1.index == i) ? (ap_int<W>)0 : inp.value[i];
 	const gtuple<W, 7> stg2 = argmax2_gf128(upd);
 	//
 	const qtuple<W, 7> r = {stg1.index, stg1.value, stg2.index, stg2.value};
@@ -616,7 +616,7 @@ qtuple<W, 8> argmax3_gf256(const t_ram<W, 256> inp)
 	const gtuple<W, 8> stg1 = argmax2_gf256(inp);
 	t_ram<W, 256> upd;
 	for (int i = 0; i < 256; i += 1)
-		upd.value[i] = (stg1.index == i) ? 0 : inp.value[i];
+		upd.value[i] = (stg1.index == i) ? (ap_int<W>)0 : inp.value[i];
 	const gtuple<W, 8> stg2 = argmax2_gf256(upd);
 	//
 	const qtuple<W, 8> r = {stg1.index, stg1.value, stg2.index, stg2.value};
