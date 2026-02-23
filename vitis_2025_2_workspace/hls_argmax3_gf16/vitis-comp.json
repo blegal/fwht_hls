@@ -1,5 +1,5 @@
 {
-  "name": "hls_argmax_gf16",
+  "name": "hls_argmax3_gf16",
   "type": "HLS",
   "configuration": {
     "componentType": "HLS",
