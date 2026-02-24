@@ -249,7 +249,7 @@ t_ram<36, 64> hls_mul_gf64(const t_ram<18, 64> src_1, const t_ram<18, 64> src_2)
 }
 //
 //
-t_ram<34, 32> hls_mul_gf32(const t_ram<17, 32> src_1, const t_ram<17, 32> src_2, const ap_uint<5> symbol)
+t_ram<34, 32> hls_mul_gf32(const t_ram<17, 32> src_1, const t_ram<17, 32> src_2)
 {
 #pragma HLS INLINE off
 #pragma HLS PIPELINE II=1
@@ -338,7 +338,7 @@ t_ram<24, 64> hls_mul_12b_gf64(const t_ram<12, 64> src_1, const t_ram<12, 64> sr
 }
 //
 //
-t_ram<24, 32> hls_mul_12b_gf32(const t_ram<12, 32> src_1, const t_ram<12, 32> src_2, const ap_uint<5> symbol)
+t_ram<24, 32> hls_mul_12b_gf32(const t_ram<12, 32> src_1, const t_ram<12, 32> src_2)
 {
 #pragma HLS INLINE off
 #pragma HLS PIPELINE II=1
