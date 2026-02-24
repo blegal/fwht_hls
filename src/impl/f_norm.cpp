@@ -152,3 +152,46 @@ t_o_norm vec_i_norm(const t_i_norm src)
 //
 //
 //
+template<int W, int q, int log2q>
+t_o_norm f_norm_12b(const t_i_norm src)
+{
+#pragma HLS INLINE
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=src.value
+
+	ap_int<W> absv[q];
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=absv
+    for (int i = 0; i < q; i++)
+    {
+    	const ap_int<W> value = src.value[i];
+    	if(value < 0)	absv[i] = -value;
+    	else			absv[i] =  value;
+    }
+    //
+    //
+	const ap_int<W> sum = absv[0];
+	for (int i = 1; i < q; i++)
+		sum |= absv[i];
+	//
+	//
+	ap_uint<log2q> factor;
+	for (int i = 0; i < q - 1; i++) // on traite pas le bit de signe...
+		factor = (sum[i] == 1) ? (ap_uint<log2q>)i : factor;
+
+	//
+	// BAD !
+	//
+
+    t_o_norm dst;
+#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
+    for (int i = 0; i < gf_size; i++) {
+        //dst.value[i] = barrel_shift(src.value[i], factor);
+    }
+    return dst;
+}
+//
+//
+//
+//////////////////////////////////////////////////////////////////////
+//
+//
+//
