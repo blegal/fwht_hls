@@ -119,13 +119,11 @@ t_ram<20, 256> hls_interleaver_gf256(const t_ram<20, 256> src, const ap_uint<8> 
 //
 t_ram<12, 4> hls_interleaver_12b_gf4(const t_ram<12, 4> src, const ap_uint<2> symbol)
 {
-#pragma HLS INLINE off
 #pragma HLS PIPELINE II=1
-    t_ram<12, 4> dst = vec_interleave<12, 4, 2>(src, symbol);
-#pragma HLS ARRAY_PARTITION variable=src.value complete
-#pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
-    return dst;
+#pragma HLS interface mode=ap_ctrl_none port=return
+    return vec_interleave<12, 4, 2>(src, symbol);
 }
+
 //
 //
 t_ram<12, 8> hls_interleaver_12b_gf8(const t_ram<12, 8> src, const ap_uint<3> symbol)

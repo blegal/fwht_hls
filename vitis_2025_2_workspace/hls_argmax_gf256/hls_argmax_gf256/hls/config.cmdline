@@ -1,0 +1,3 @@
+relativeroot=/home/legal/GitHub/fwht_hls/vitis_2025_2_workspace
+original_argv=-c --mode hls --config ./hls_argmax_gf256/hls_config.cfg --work_dir ./hls_argmax_gf256/hls_argmax_gf256 
+

@@ -1,0 +1,48 @@
+<ENTRY>
+{
+ "thisFile": "/home/legal/GitHub/fwht_hls/vitis_2025_2_workspace/hls_argmax_gf256/hls_argmax_gf256/hls_argmax_gf256.hlscompile_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Tue Feb 24 17:00:41 2026",
+ "timestampMillis": "1771948841688",
+ "buildStep": {
+  "cmdId": "5463d0e2-fdd1-4491-b00d-3a76bdf92cda",
+  "name": "v++",
+  "logFile": "/home/legal/GitHub/fwht_hls/vitis_2025_2_workspace/hls_argmax_gf256/hls_argmax_gf256/logs/hls_argmax_gf256.steps.log",
+  "commandLine": "/home/legal/tools/Xilinx/2025.2/Vitis/bin/unwrapped/lnx64.o/v++  -c --mode hls --config ./hls_argmax_gf256/hls_config.cfg --work_dir ./hls_argmax_gf256/hls_argmax_gf256 ",
+  "args": [
+   "-c",
+   "--mode",
+   "hls",
+   "--config",
+   "./hls_argmax_gf256/hls_config.cfg",
+   "--work_dir",
+   "./hls_argmax_gf256/hls_argmax_gf256"
+  ],
+  "iniFiles": [
+   {
+    "path": "/home/legal/GitHub/fwht_hls/vitis_2025_2_workspace/hls_argmax_gf256/hls_config.cfg",
+    "content": "part=xck26-sfvc784-2LV-c\n\n[hls]\nflow_target=vivado\npackage.output.format=ip_catalog\npackage.output.syn=false\nsyn.top=hls_argmax2_gf256\nsyn.file=/home/legal/GitHub/fwht_hls/src/impl/f_argmax2.cpp\nsyn.file=/home/legal/GitHub/fwht_hls/src/impl/f_argmax2.hpp\nsyn.cflags=-D_SYNTHESIS_\nclock=100MHz\nclock_uncertainty=10%"
+   }
+  ],
+  "cwd": "/home/legal/GitHub/fwht_hls/vitis_2025_2_workspace"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Tue Feb 24 17:00:41 2026",
+ "timestampMillis": "1771948841688",
+ "status": {
+  "cmdId": "5463d0e2-fdd1-4491-b00d-3a76bdf92cda",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>

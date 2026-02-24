@@ -51,3 +51,5 @@ solution1.directive
 decoder/bin/main
 
 build/
+vitis_2025_2_workspace/_ide
+vitis_2025_2_workspace/_ide/*.py

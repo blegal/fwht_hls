@@ -1,0 +1,9 @@
+{
+  "name": "hls_argmax_gf256",
+  "type": "HLS",
+  "configuration": {
+    "componentType": "HLS",
+    "configFiles": ["..\/hls_config.cfg"],
+    "work_dir": "\/home\/legal\/GitHub\/fwht_hls\/vitis_2025_2_workspace\/hls_argmax_gf256\/hls_argmax_gf256"
+  }
+}

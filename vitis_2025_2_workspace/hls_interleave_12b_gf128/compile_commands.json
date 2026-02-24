@@ -1,0 +1,16 @@
+[
+  {
+    "directory": "/home/legal/GitHub/fwht_hls/vitis_2025_2_workspace/hls_interleave_12b_gf128",
+    "arguments": [
+      "/home/legal/tools/Xilinx/2025.2/Vitis/lnx64/tools/vcxx/libexec/clang++",
+      "--gcc-toolchain=/home/legal/tools/Xilinx/2025.2/Vitis/tps/lnx64/gcc-8.3.0",
+      "-fhls",
+      "-hls-syn-headers-dir=/home/legal/tools/Xilinx/2025.2/Vitis/common/technology/autopilot",
+      "-fhlstoplevel=hls_interleaver_12b_gf128",
+      "-D_SYNTHESIS_",
+      "-c",
+      "/home/legal/GitHub/fwht_hls/src/impl/f_interleave.cpp"
+    ],
+    "file": "/home/legal/GitHub/fwht_hls/src/impl/f_interleave.cpp"
+  }
+]
