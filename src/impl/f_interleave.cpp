@@ -26,7 +26,7 @@ t_ram<W, q> vec_interleave(const t_ram<W, q> src, const ap_uint<log2q> symbol)
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
 	for (int i = 0; i < q; i += 1)
 		dst.value[i] = src.value[ tab[i] ];
-	return dst;
+    return dst;
 }
 //
 //
@@ -40,9 +40,9 @@ t_ram<14, 4> hls_interleaver_gf4(const t_ram<14, 4> src, const ap_uint<2> symbol
 #pragma HLS INLINE off
 #pragma HLS PIPELINE II=1
     t_ram<14, 4> dst = vec_interleave<14, 4, 2>(src, symbol);
-    return dst;
 #pragma HLS ARRAY_PARTITION variable=src.value complete
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
+    return dst;
 }
 //
 //
@@ -51,9 +51,9 @@ t_ram<15, 8> hls_interleaver_gf8(const t_ram<15, 8> src, const ap_uint<3> symbol
 #pragma HLS INLINE off
 #pragma HLS PIPELINE II=1
     t_ram<15, 8> dst = vec_interleave<15, 8, 3>(src, symbol);
-    return dst;
 #pragma HLS ARRAY_PARTITION variable=src.value complete
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
+    return dst;
 }
 //
 //
@@ -122,9 +122,9 @@ t_ram<12, 4> hls_interleaver_12b_gf4(const t_ram<12, 4> src, const ap_uint<2> sy
 #pragma HLS INLINE off
 #pragma HLS PIPELINE II=1
     t_ram<12, 4> dst = vec_interleave<12, 4, 2>(src, symbol);
-    return dst;
 #pragma HLS ARRAY_PARTITION variable=src.value complete
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
+    return dst;
 }
 //
 //
@@ -133,9 +133,9 @@ t_ram<12, 8> hls_interleaver_12b_gf8(const t_ram<12, 8> src, const ap_uint<3> sy
 #pragma HLS INLINE off
 #pragma HLS PIPELINE II=1
     t_ram<12, 8> dst = vec_interleave<12, 8, 3>(src, symbol);
-    return dst;
 #pragma HLS ARRAY_PARTITION variable=src.value complete
 #pragma HLS ARRAY_PARTITION dim=1 type=complete variable=dst.value
+    return dst;
 }
 //
 //
